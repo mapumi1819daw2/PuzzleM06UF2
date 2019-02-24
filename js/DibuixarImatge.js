@@ -11,16 +11,49 @@ var img = [];
 
 $(function () {
 
-    /* DND */
-    var canves= document.querySelectorAll("canvas");
+    function DND() {
 
-    [].forEach.call(canves, function (item){
-        item.addEventListener('dragstart', gestionaIniciDrag, false);
-    });
+        var inici = 0;
+        var fi =0 ;
+        /* DND */
+        var canves = document.querySelectorAll("canvas");
 
-    function gestionaIniciDrag (d){
-        d.dataTransfer.setData("c", d.target.id);
+        [].forEach.call(canves, function (item) {
+            item.addEventListener('dragstart', gestionaIniciDrag, false);
+            item.addEventListener('dragover', gestionaSobreDrag, false);
+            item.addEventListener('drop', gestionarDrop, false);
+        });
+
+
+
+        /* Funció que permet a tots els canvas rebre altres canvas amb DND */
+        function gestionaSobreDrag(event) {
+            event.preventDefault();
+        }
+
+        function gestionaIniciDrag(event) {
+            //tipus i valor
+            event.dataTransfer.setData("imatge", event.target.id);
+
+            console.log("Inici: "+event.target.id);
+        }
+
+        function gestionarDrop(event) {
+            event.preventDefault();
+
+            
+            //La imatge arrossegada
+            var data = event.dataTransfer.getData("imatge");
+
+            alert(data);
+
+            //event.target es l'element desti
+           /*  alert(event.target.id); */
+            event.target.replaceChild(document.getElementById(data), event.targets);
+        }
     }
+
+
 
     /* Funció que pinta cada canvas */
     function DibuixaNousCanvas(id) {
@@ -49,13 +82,15 @@ $(function () {
 
             console.log(cont);
 
-            if(cont==3){
+            if (cont == 3) {
                 var br = document.createElement("BR");
                 document.body.appendChild(br);
                 cont = 0;
             }
 
         }
+
+        DND();
 
     }
 
