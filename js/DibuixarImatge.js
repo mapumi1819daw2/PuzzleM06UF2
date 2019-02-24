@@ -26,14 +26,41 @@ $(function () {
 
 
 
+        function swapPuzzleElements(elementA, elementB) {
+            const containerA = elementA.parentNode;
+            const containerB = elementB.parentNode;
+            
+            containerB.appendChild(elementA);
+            containerA.appendChild(elementB);
+          }
+          
+
+
         /* Funció que permet a tots els canvas rebre altres canvas amb DND */
         function gestionaSobreDrag(event) {
             event.preventDefault();
         }
 
         function gestionaIniciDrag(event) {
+
+             
+            /* var id  = event.target.id;
+            var canvas = document.getElementById(id);
+            var alt = canvas.height;
+            var ample = canvas.width;
+           
+
+            var ctx = canvas.getContext("2d");
+            
+            var imatge = ctx.getImageData(0, 0, ample, alt); */
+
+            
             //tipus i valor
-            event.dataTransfer.setData("imatge", event.target.id);
+            event.dataTransfer.setData("image", event.target.id);
+
+            
+
+            /* c. */
 
             console.log("Inici: "+event.target.id);
         }
@@ -43,13 +70,22 @@ $(function () {
 
             
             //La imatge arrossegada
-            var data = event.dataTransfer.getData("imatge");
+            var data = event.dataTransfer.getData("image");
 
-            alert(data);
+            
+            
+          
 
-            //event.target es l'element desti
-           /*  alert(event.target.id); */
-            event.target.replaceChild(document.getElementById(data), event.targets);
+            
+            var canvasIn = document.getElementById(data);
+            /* var nou = document.getElementById(event.target.id);
+            canvasIn.replaceWith(nou    ); */
+            
+
+          
+            event.target.replaceWith(document.getElementById(data));
+            
+            
         }
     }
 
