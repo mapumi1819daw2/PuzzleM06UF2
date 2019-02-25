@@ -92,6 +92,14 @@ $(function () {
 
             swipeCanvas(imatgeA, ctxA, imatgeB, ctxB);
 
+            var idA = data*1;
+            var idB = event.target.id*1;
+
+            ordre[data] = event.target.id;
+            ordre[event.target.id] = data;
+
+            console.log(ordre);
+
         }
     }
 
@@ -120,6 +128,7 @@ $(function () {
         for (var i = 0; i < dimensionsPuzzle * dimensionsPuzzle; i++) {
             DibuixaNousCanvas(i);
 
+            /* Establim l'ordre inicial dels canvas */
             ordre[i] = i;
 
             cont++;
@@ -133,9 +142,11 @@ $(function () {
             }
 
 
-            console.log("ordre :"+ordre);
+            
 
         }
+
+        console.log("ordre :"+ordre);
 
         DND();
 
