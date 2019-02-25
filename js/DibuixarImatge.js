@@ -3,18 +3,28 @@ var foto = {
     height: 0,
 };
 
+
+var ordre =  [];
+
 // 3 -> 3 x 3
 // 4 -> 4 x 4
 var dimensionsPuzzle = 3;
 
 var img = [];
 
+
+var fragment = {
+    width: 0,
+    height: 0,
+};
+
+
 $(function () {
 
     function DND() {
 
         var inici = 0;
-        var fi =0 ;
+        var fi = 0;
         /* DND */
         var canves = document.querySelectorAll("canvas");
 
@@ -25,15 +35,24 @@ $(function () {
         });
 
 
+        function getDocument(id){
+            return document.getElementById(id);
+        }
 
-        function swapPuzzleElements(elementA, elementB) {
-            const containerA = elementA.parentNode;
-            const containerB = elementB.parentNode;
-            
-            containerB.appendChild(elementA);
-            containerA.appendChild(elementB);
-          }
-          
+        function getContext(canvas){
+            return canvas.getContext("2d");
+        }
+
+        function getImage(ctx){
+            return ctx.getImageData(0, 0, fragment.width, fragment.height);
+        }
+
+        /* Funció que canvia les imatges entre dos canvas */
+        function swipeCanvas(imageA, ctxA, imageB, ctxB){
+            ctxB.putImageData(imageA, 0, 0);
+            ctxA.putImageData(imageB, 0, 0);
+        }
+
 
 
         /* Funció que permet a tots els canvas rebre altres canvas amb DND */
@@ -42,50 +61,37 @@ $(function () {
         }
 
         function gestionaIniciDrag(event) {
-
-             
-            /* var id  = event.target.id;
-            var canvas = document.getElementById(id);
-            var alt = canvas.height;
-            var ample = canvas.width;
-           
-
-            var ctx = canvas.getContext("2d");
-            
-            var imatge = ctx.getImageData(0, 0, ample, alt); */
-
-            
             //tipus i valor
             event.dataTransfer.setData("image", event.target.id);
 
-            
-
             /* c. */
 
-            console.log("Inici: "+event.target.id);
+            console.log("Inici: " + event.target.id);
         }
 
         function gestionarDrop(event) {
             event.preventDefault();
 
-            
+
             //La imatge arrossegada
             var data = event.dataTransfer.getData("image");
 
             
-            
-          
+            var canvasA = getDocument(data);
+            var ctxA = getContext(canvasA);
+            var imatgeA = getImage(ctxA);
 
-            
-            var canvasIn = document.getElementById(data);
-            /* var nou = document.getElementById(event.target.id);
-            canvasIn.replaceWith(nou    ); */
-            
 
-          
-            event.target.replaceWith(document.getElementById(data));
-            
-            
+
+            /* Agafem la imatge del canvas B */
+           
+            var canvasB = getDocument(event.target.id);
+            var ctxB =  getContext(canvasB);
+            var imatgeB = getImage(ctxB);
+
+
+            swipeCanvas(imatgeA, ctxA, imatgeB, ctxB);
+
         }
     }
 
@@ -114,6 +120,8 @@ $(function () {
         for (var i = 0; i < dimensionsPuzzle * dimensionsPuzzle; i++) {
             DibuixaNousCanvas(i);
 
+            ordre[i] = i;
+
             cont++;
 
             console.log(cont);
@@ -123,6 +131,9 @@ $(function () {
                 document.body.appendChild(br);
                 cont = 0;
             }
+
+
+            console.log("ordre :"+ordre);
 
         }
 
@@ -138,10 +149,6 @@ $(function () {
 
     function retallaFoto(c) {
 
-        var fragment = {
-            width: foto.width / dimensionsPuzzle,
-            height: foto.height / dimensionsPuzzle,
-        };
 
         var widthActual = 0;
         var heightActual = 0;
@@ -198,6 +205,11 @@ $(function () {
 
         foto.width = imatge.width;
         foto.height = imatge.height;
+
+
+        /* Calculem les dimensions de cada retall d'imatge */
+        fragment.width = foto.width / dimensionsPuzzle;
+        fragment.height = foto.height / dimensionsPuzzle;
 
         retallaFoto(ctx);
 
