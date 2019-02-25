@@ -19,6 +19,9 @@ var fragment = {
 };
 
 
+var temps = 0;
+var moviments = 0;
+
 $(function () {
 
     function DND() {
@@ -34,6 +37,12 @@ $(function () {
             item.addEventListener('drop', gestionarDrop, false);
         });
 
+
+        function gestorMarcador(){
+            moviments++;
+
+            $("#mov").text(moviments);
+        }
 
         function getDocument(id){
             return document.getElementById(id);
@@ -95,10 +104,12 @@ $(function () {
             var idA = data*1;
             var idB = event.target.id*1;
 
-            ordre[data] = event.target.id;
-            ordre[event.target.id] = data;
+            ordre[data] = idB;
+            ordre[event.target.id] = idA;
 
             console.log(ordre);
+
+            gestorMarcador();
 
         }
     }
@@ -112,7 +123,11 @@ $(function () {
         canvas.setAttribute("id", id);
         canvas.setAttribute("draggable", "true");
         canvas.style.border = "1px solid black";
+
+        
         document.body.appendChild(canvas);
+
+        $("#foto").after(canvas);
 
         var ctx = canvas.getContext("2d");
         ctx.putImageData(img[id], 0, 0);
