@@ -4,7 +4,9 @@ var foto = {
 };
 
 
-var ordre =  [];
+ordre = [];
+
+var cont = 0;
 
 // 3 -> 3 x 3
 // 4 -> 4 x 4
@@ -38,26 +40,63 @@ $(function () {
         });
 
 
-        function gestorMarcador(){
+
+        /* Conta les fitxes a la seva posició */
+
+        function verificaPuzzle() {
+            ordre.forEach(myFunction);
+            function myFunction(value, index, array) {
+                if (index == value) {
+                    cont++;
+                }
+            }
+
+            console.log("cont " + cont);
+
+            if (cont == dimensionsPuzzle * dimensionsPuzzle) {
+                alert("Has completat el puzzle!");
+            }
+
+            cont = 0;
+        }
+
+        /* Funció que desa la posició de les fitxes a l'array ordre[] */
+        function desaPosicioDeFitxaA_Array(idA, idB) {
+
+            /* Agafem la posicio de cada fitxa */
+            var posA = ordre.indexOf(idA);
+
+            var posB = ordre.indexOf(idB);
+
+            /* Invertim l'ordre */
+            ordre[posA] = idB;
+            console.log("[posA] " + [posA]);
+            console.log("ordre[posA] " + ordre[posA]);
+            ordre[posB] = idA;
+            console.log(ordre);
+        }
+
+
+        function gestorMarcador() {
             moviments++;
 
             $("#mov").text(moviments);
         }
 
-        function getDocument(id){
+        function getDocument(id) {
             return document.getElementById(id);
         }
 
-        function getContext(canvas){
+        function getContext(canvas) {
             return canvas.getContext("2d");
         }
 
-        function getImage(ctx){
+        function getImage(ctx) {
             return ctx.getImageData(0, 0, fragment.width, fragment.height);
         }
 
         /* Funció que canvia les imatges entre dos canvas */
-        function swipeCanvas(imageA, ctxA, imageB, ctxB){
+        function swipeCanvas(imageA, ctxA, imageB, ctxB) {
             ctxB.putImageData(imageA, 0, 0);
             ctxA.putImageData(imageB, 0, 0);
         }
@@ -85,7 +124,9 @@ $(function () {
             //La imatge arrossegada
             var data = event.dataTransfer.getData("image");
 
-            
+
+
+
             var canvasA = getDocument(data);
             var ctxA = getContext(canvasA);
             var imatgeA = getImage(ctxA);
@@ -93,23 +134,25 @@ $(function () {
 
 
             /* Agafem la imatge del canvas B */
-           
+
             var canvasB = getDocument(event.target.id);
-            var ctxB =  getContext(canvasB);
+            var ctxB = getContext(canvasB);
             var imatgeB = getImage(ctxB);
 
 
             swipeCanvas(imatgeA, ctxA, imatgeB, ctxB);
 
-            var idA = data*1;
-            var idB = event.target.id*1;
+            var idA = data * 1;
+            var idB = event.target.id * 1;
 
-            ordre[data] = idB;
-            ordre[event.target.id] = idA;
+            console.log("idA " + idA);
+            console.log("idB " + idB);
 
-            console.log(ordre);
-
+            desaPosicioDeFitxaA_Array(idA, idB);
             gestorMarcador();
+            verificaPuzzle();
+
+            
 
         }
     }
@@ -124,15 +167,15 @@ $(function () {
         canvas.setAttribute("draggable", "true");
         canvas.style.border = "1px solid black";
 
-        
-        document.body.appendChild(canvas);
 
-        $("#foto").after(canvas);
+
+        /* $("#puzzle").after(canvas); */
 
         var ctx = canvas.getContext("2d");
         ctx.putImageData(img[id], 0, 0);
 
 
+        document.getElementById("puzzle").appendChild(canvas);
     }
 
 
@@ -144,7 +187,7 @@ $(function () {
             DibuixaNousCanvas(i);
 
             /* Establim l'ordre inicial dels canvas */
-            ordre[i] = i;
+            ordre.push(i);
 
             cont++;
 
@@ -157,11 +200,11 @@ $(function () {
             }
 
 
-            
+
 
         }
-
-        console.log("ordre :"+ordre);
+        console.log("ordre ");
+        console.log(ordre);
 
         DND();
 

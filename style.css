@@ -1,0 +1,15 @@
+.div-inline{
+    display: inline-block;
+    
+}
+
+
+#puzzle{
+    width: 1000px;
+}
+
+#marcador{
+    position: relative;
+    width: 20%;
+    top: 10px;
+}
