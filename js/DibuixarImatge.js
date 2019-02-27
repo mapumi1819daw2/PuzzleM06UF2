@@ -20,16 +20,30 @@ var fragment = {
     height: 0,
 };
 
+var dataInicial = {
+    horaInicial : 0,
+    minutsInicial: 0,
+    segonsInicial: 0,
+};
 
-var temps = 0;
+
+var minuts = 0;
 var moviments = 0;
 
 $(function () {
 
+
+    /* Obtenim l'hora inicial */
+    var date = new Date();
+    dataInicial.horaInicial = date.getHours();
+    dataInicial.minutsInicial = date.getMinutes();
+    dataInicial.segonsInicial = date.getSeconds();
+
+    console.log("Hora inicial "+ dataInicial.horaInicial+ ":"+ dataInicial.minutsInicial);
+
     function DND() {
 
-        var inici = 0;
-        var fi = 0;
+      
         /* DND */
         var canves = document.querySelectorAll("canvas");
 
@@ -37,6 +51,7 @@ $(function () {
             item.addEventListener('dragstart', gestionaIniciDrag, false);
             item.addEventListener('dragover', gestionaSobreDrag, false);
             item.addEventListener('drop', gestionarDrop, false);
+            item.addEventListener('dragend', gestionarDragEnd, false);
         });
 
 
@@ -54,7 +69,9 @@ $(function () {
             console.log("cont " + cont);
 
             if (cont == dimensionsPuzzle * dimensionsPuzzle) {
-                alert("Has completat el puzzle!");
+
+                calculaTemps();
+                
             }
 
             cont = 0;
@@ -77,6 +94,29 @@ $(function () {
         }
 
 
+        /* Funció que calcula el temps trigat a completar el puzzle */
+        function calculaTemps(){
+
+            var novaData = new Date();
+            var horaFinal = novaData.getHours();
+            var minutFinal = novaData.getMinutes();
+            var segonsFinal = novaData.getSeconds();
+
+            minuts = minutFinal - dataInicial.minutsInicial;
+            segons = segonsFinal - dataInicial.segonsInicial;
+
+            if(minuts==0){
+                $("#temps").text(segons+ " segons");
+            }
+            else{
+                $("#temps").text(minuts+" minuts i "+segons);
+            }
+
+            $("#final").text("Partida acabada!");
+           
+        }
+
+        /* Mostra la quantitat de moviments */
         function gestorMarcador() {
             moviments++;
 
@@ -120,11 +160,8 @@ $(function () {
         function gestionarDrop(event) {
             event.preventDefault();
 
-
             //La imatge arrossegada
             var data = event.dataTransfer.getData("image");
-
-
 
 
             var canvasA = getDocument(data);
@@ -149,10 +186,15 @@ $(function () {
             console.log("idB " + idB);
 
             desaPosicioDeFitxaA_Array(idA, idB);
+            
+            
+
+        }
+
+        function gestionarDragEnd(event){
             gestorMarcador();
             verificaPuzzle();
 
-            
 
         }
     }
@@ -165,9 +207,9 @@ $(function () {
         var canvas = document.createElement("canvas");
         canvas.setAttribute("id", id);
         canvas.setAttribute("draggable", "true");
+        canvas.setAttribute("width", fragment.width);
+        canvas.setAttribute("height", fragment.height);
         canvas.style.border = "1px solid black";
-
-
 
         /* $("#puzzle").after(canvas); */
 
@@ -183,6 +225,9 @@ $(function () {
     function dibuixaPuzzle() {
 
         var cont = 0;
+        
+        $("#puzzle").css("width", foto.width+20);
+        
         for (var i = 0; i < dimensionsPuzzle * dimensionsPuzzle; i++) {
             DibuixaNousCanvas(i);
 
@@ -217,13 +262,8 @@ $(function () {
 
 
     function retallaFoto(c) {
-
-
         var widthActual = 0;
         var heightActual = 0;
-
-
-        /*  var cont = 0; */
 
         var ample = fragment.width;
         var alt = fragment.height;
@@ -287,7 +327,7 @@ $(function () {
 
     function carregaImatge() {
         var imatge = new Image();
-        imatge.src = "img/NY.jpg";
+        imatge.src = "img/"+ciutat+".jpg";
         imatge.crossOrigin = "Anonymous";
 
         imatge.onload = function () {

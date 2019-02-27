@@ -1,4 +1,4 @@
-var ubi = null;
+var ciutat = null;
 
 function aRadians(graus) {
     return graus * Math.PI / 180;
@@ -58,25 +58,23 @@ function mostraUbiMesPropera(lat, lon){
 
   
     if(d < d1){
-        ubi = d;
+        ciutat = d;
         if(d<d2){
-            ubi = "NY";
+            ciutat = "NY";
         }
         else{
-            ubi = "Tokio";
+            ciutat = "Tokio";
         }
     }
     else if (d1<d2){
 
-        ubi = "Paris";
+        ciutat = "Paris";
         
     }
 
     else{
-        ubi = "Tokio";
+        ciutat = "Tokio";
     }
 
-
-    return ubi;
     
 }
