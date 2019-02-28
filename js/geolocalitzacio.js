@@ -26,7 +26,7 @@ var Tokio = [35.6894875, 139.6917064];
 
 
 /* Calculca la posició actual */
-navigator.geolocation.getCurrentPosition(function (posicio) {
+navigator.geolocation.watchPosition(function (posicio) {
     mostraUbiMesPropera(posicio.coords.latitude, posicio.coords.longitude);
 });
 
