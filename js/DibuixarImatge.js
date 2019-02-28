@@ -21,7 +21,7 @@ var fragment = {
 };
 
 var dataInicial = {
-    horaInicial : 0,
+    horaInicial: 0,
     minutsInicial: 0,
     segonsInicial: 0,
 };
@@ -39,11 +39,11 @@ $(function () {
     dataInicial.minutsInicial = date.getMinutes();
     dataInicial.segonsInicial = date.getSeconds();
 
-    console.log("Hora inicial "+ dataInicial.horaInicial+ ":"+ dataInicial.minutsInicial);
+    console.log("Hora inicial " + dataInicial.horaInicial + ":" + dataInicial.minutsInicial);
 
     function DND() {
 
-      
+
         /* DND */
         var canves = document.querySelectorAll("canvas");
 
@@ -71,7 +71,7 @@ $(function () {
             if (cont == dimensionsPuzzle * dimensionsPuzzle) {
 
                 calculaTemps();
-                
+
             }
 
             cont = 0;
@@ -95,7 +95,7 @@ $(function () {
 
 
         /* Funció que calcula el temps trigat a completar el puzzle */
-        function calculaTemps(){
+        function calculaTemps() {
 
             var novaData = new Date();
             var horaFinal = novaData.getHours();
@@ -105,15 +105,15 @@ $(function () {
             minuts = minutFinal - dataInicial.minutsInicial;
             segons = segonsFinal - dataInicial.segonsInicial;
 
-            if(minuts==0){
-                $("#temps").text(segons+ " segons");
+            if (minuts == 0) {
+                $("#temps").text(segons + " segons");
             }
-            else{
-                $("#temps").text(minuts+" minuts i "+segons);
+            else {
+                $("#temps").text(minuts + " minuts i " + segons);
             }
 
             $("#final").text("Partida acabada!");
-           
+
         }
 
         /* Mostra la quantitat de moviments */
@@ -186,12 +186,12 @@ $(function () {
             console.log("idB " + idB);
 
             desaPosicioDeFitxaA_Array(idA, idB);
-            
-            
+
+
 
         }
 
-        function gestionarDragEnd(event){
+        function gestionarDragEnd(event) {
             gestorMarcador();
             verificaPuzzle();
 
@@ -224,20 +224,49 @@ $(function () {
     /* Funció que mostra les peces del puzle */
     function dibuixaPuzzle() {
 
-        var cont = 0;
         
-        $("#puzzle").css("width", foto.width+20);
-        
-        for (var i = 0; i < dimensionsPuzzle * dimensionsPuzzle; i++) {
-            DibuixaNousCanvas(i);
 
-            /* Establim l'ordre inicial dels canvas */
-            ordre.push(i);
+        var cont = 0;
+
+        $("#puzzle").css("width", foto.width + 20);
+
+
+        var llista = [];
+
+
+        for (var i = 0; i < dimensionsPuzzle * dimensionsPuzzle; i++) {
+            llista.push(i * 1);
+        }
+
+        var trobat = false;
+
+        var cont = 0;
+        do {
+            var aleatori = Math.floor(Math.random * 9);
+
+            llista.forEach(myFunction);
+
+            function myFunction(value, index, array) {
+
+                if (value == aleatori) {
+                    trobat = true;
+                }
+
+            }
+
+            if(trobat == false){
+                var pos = llista.indexOf(aleatori);
+                delete llista[pos];
+                DibuixaNousCanvas(aleatori);
+                ordre.push[aleatori];
+            }
+
+            trobat = false;
 
             cont++;
 
             console.log(cont);
-
+    
             if (cont == 3) {
                 var br = document.createElement("BR");
                 document.body.appendChild(br);
@@ -245,9 +274,23 @@ $(function () {
             }
 
 
+        }while(cont!=dimensionsPuzzle*dimensionsPuzzle);
+            
+
+            
 
 
-        }
+           /*  DibuixaNousCanvas(i); */
+
+        /* Establim l'ordre inicial dels canvas */
+       /*  ordre.push(i); */
+
+       
+
+
+
+
+
         console.log("ordre ");
         console.log(ordre);
 
@@ -327,7 +370,7 @@ $(function () {
 
     function carregaImatge() {
         var imatge = new Image();
-        imatge.src = "img/"+ciutat+".jpg";
+        imatge.src = "img/" + ciutat + ".jpg";
         imatge.crossOrigin = "Anonymous";
 
         imatge.onload = function () {

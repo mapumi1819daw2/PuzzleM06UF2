@@ -1,7 +1,5 @@
 var ciutat = null;
 
-alert("a");
-
 function aRadians(graus) {
     return graus * Math.PI / 180;
 }
