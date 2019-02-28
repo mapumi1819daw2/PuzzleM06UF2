@@ -1,10 +1,26 @@
-console.log("web storage ss");
+var nom = "";
+var trobat = false;
+
 var emmagatzematge = {
     desar : function(){
-        alert("a");
-        localStorage.setItem(document.getElementById(nom).value);
-    }
+        localStorage.setItem(document.getElementById("nom").value, 0);
+    },
+
+    verfica : function(){
+        for(var i = 0; i< localStorage.length; i++){
+            console.log(localStorage.key(i));
+            if(localStorage.key(i)==nom){
+                trobat = true;
+            }
+        }
+    },
 };
 
-console.log("web storage");
-document.getElementById("Submit").addEventListener("click", emmagatzematge.desar, false);
+
+
+function anarDesar(){
+    nom = document.getElementById("nom").value;
+    emmagatzematge.desar();
+    emmagatzematge.verifica();
+    alert(trobat);
+} 
