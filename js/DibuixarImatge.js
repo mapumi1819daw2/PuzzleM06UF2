@@ -4,13 +4,15 @@ var foto = {
 };
 
 
-ordre = [];
+var ordre = [];
 
 var cont = 0;
 
 // 3 -> 3 x 3
 // 4 -> 4 x 4
 var dimensionsPuzzle = 3;
+
+var qFitxes = dimensionsPuzzle*dimensionsPuzzle;
 
 var img = [];
 
@@ -214,7 +216,7 @@ $(function () {
         /* $("#puzzle").after(canvas); */
 
         var ctx = canvas.getContext("2d");
-        ctx.putImageData(img[id], 0, 0);
+        ctx.putImageData(img[ordre[id]], 0, 0);
 
 
         document.getElementById("puzzle").appendChild(canvas);
@@ -224,49 +226,52 @@ $(function () {
     /* Funció que mostra les peces del puzle */
     function dibuixaPuzzle() {
 
-        
+
 
         var cont = 0;
 
         $("#puzzle").css("width", foto.width + 20);
 
-
-        var llista = [];
-
-
-        for (var i = 0; i < dimensionsPuzzle * dimensionsPuzzle; i++) {
-            llista.push(i * 1);
-        }
-
+    
+        
         var trobat = false;
 
         var cont = 0;
+        var voltes = 0;
         do {
-            var aleatori = Math.floor(Math.random * 9);
+            var aleatori = Math.floor((Math.random() * qFitxes)+0);
 
-            llista.forEach(myFunction);
+            console.log("aleatori "+aleatori);
+            
+            
+
+            ordre.forEach(myFunction);
 
             function myFunction(value, index, array) {
+                console.log("Funcio "+value);
 
                 if (value == aleatori) {
                     trobat = true;
+                    console.log("if "+value);
                 }
 
             }
 
-            if(trobat == false){
-                var pos = llista.indexOf(aleatori);
-                delete llista[pos];
-                DibuixaNousCanvas(aleatori);
-                ordre.push[aleatori];
+            if (trobat == false) {                
+                ordre.push(aleatori);
+                voltes++;
+                cont++;
+                console.log("If trobat false");
+                console.log("Aleatori "+aleatori);
+                console.log(ordre);   
             }
 
             trobat = false;
 
-            cont++;
+            
 
-            console.log(cont);
-    
+            console.log("cont "+voltes);
+
             if (cont == 3) {
                 var br = document.createElement("BR");
                 document.body.appendChild(br);
@@ -274,27 +279,22 @@ $(function () {
             }
 
 
-        }while(cont!=dimensionsPuzzle*dimensionsPuzzle);
-            
-
-            
 
 
-           /*  DibuixaNousCanvas(i); */
+        } while (voltes != qFitxes);
 
-        /* Establim l'ordre inicial dels canvas */
-       /*  ordre.push(i); */
-
-       
-
-
-
-
-
-        console.log("ordre ");
+        console.log("Llista");
         console.log(ordre);
 
-        DND();
+
+
+        for (var i = 0; i < qFitxes; i++) {
+            DibuixaNousCanvas(i);
+        }
+
+    
+
+       /*  DND(); */
 
     }
 
@@ -335,7 +335,7 @@ $(function () {
 
         }
 
-        c.putImageData(img[6], 0, 700);
+        /* c.putImageData(img[6], 0, 700); */
 
         esborraCanvasInicial();
 
