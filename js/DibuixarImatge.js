@@ -70,7 +70,7 @@ $(function () {
 
             console.log("cont " + cont);
 
-            if (cont == dimensionsPuzzle * dimensionsPuzzle) {
+            if (cont == qFitxes ) {
 
                 calculaTemps();
 
@@ -80,18 +80,19 @@ $(function () {
         }
 
         /* Funció que desa la posició de les fitxes a l'array ordre[] */
-        function desaPosicioDeFitxaA_Array(idA, idB) {
+        function desaPosicioDeFitxaA_Array(idA, idB, canvasA, canvasB) {
 
             /* Agafem la posicio de cada fitxa */
-            var posA = ordre.indexOf(idA);
+            
+            var posA = ordre.indexOf(canvasA*1);
 
-            var posB = ordre.indexOf(idB);
+            var posB = ordre.indexOf(canvasB*1);
 
             /* Invertim l'ordre */
-            ordre[posA] = idB;
-            console.log("[posA] " + [posA]);
+            ordre[posA] = canvasB*1;
+            console.log("[posA] " + posA);
             console.log("ordre[posA] " + ordre[posA]);
-            ordre[posB] = idA;
+            ordre[posB] = canvasA*1;
             console.log(ordre);
         }
 
@@ -184,10 +185,19 @@ $(function () {
             var idA = data * 1;
             var idB = event.target.id * 1;
 
-            console.log("idA " + idA);
-            console.log("idB " + idB);
+           
+            /* Anem assignant els valors de les noves posicions */
+            var posA = $("#"+idA).attr("pos");
+            var posB = $("#"+idB).attr("pos");
 
-            desaPosicioDeFitxaA_Array(idA, idB);
+
+            $("#"+idA).attr("pos", posB);
+            $("#"+idB).attr("pos", posA);
+
+
+            
+
+            desaPosicioDeFitxaA_Array(idA, idB, posA, posB);
 
 
 
@@ -207,7 +217,8 @@ $(function () {
     function DibuixaNousCanvas(id) {
 
         var canvas = document.createElement("canvas");
-        canvas.setAttribute("id", id);
+        canvas.setAttribute("id", ordre[id]);
+        canvas.setAttribute("pos", ordre[id]);
         canvas.setAttribute("draggable", "true");
         canvas.setAttribute("width", fragment.width);
         canvas.setAttribute("height", fragment.height);
@@ -294,7 +305,7 @@ $(function () {
 
     
 
-       /*  DND(); */
+        DND();
 
     }
 
