@@ -76,5 +76,8 @@ function mostraUbiMesPropera(lat, lon){
         ciutat = "Tokio";
     }
 
+    /* Imatge a usar */
+    document.getElementById("imatge").src="img/"+ciutat+".jpg";
+
     
 }

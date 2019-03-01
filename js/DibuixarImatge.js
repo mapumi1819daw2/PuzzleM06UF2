@@ -6,6 +6,8 @@ var foto = {
 
 var ordre = [];
 
+var enBlanc = 0;
+
 var cont = 0;
 
 // 3 -> 3 x 3
@@ -71,6 +73,20 @@ $(function () {
             console.log("cont " + cont);
 
             if (cont == qFitxes ) {
+
+                $( "canvas" ).each(function( index ) {
+                    var pos = $( this ).attr("pos");
+                    if(pos==enBlanc){
+                        var id = $(this).attr("id");
+                        console.log("id : "+id);
+                        var canvas = document.getElementById(id);
+
+                        var ctx = canvas.getContext("2d");
+                        var lloc = ordre.indexOf(enBlanc);
+                        ctx.putImageData(img[lloc], 0, 0);
+                    }
+                    
+                  });
 
                 calculaTemps();
 
@@ -227,7 +243,10 @@ $(function () {
         /* $("#puzzle").after(canvas); */
 
         var ctx = canvas.getContext("2d");
-        ctx.putImageData(img[ordre[id]], 0, 0);
+        if(ordre[id]!=enBlanc){
+            ctx.putImageData(img[ordre[id]], 0, 0);
+        }
+        
 
 
         document.getElementById("puzzle").appendChild(canvas);
