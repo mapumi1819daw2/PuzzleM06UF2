@@ -69,6 +69,7 @@ function mostraUbiMesPropera(lat, lon){
     else if (d1<d2){
 
         ciutat = "Paris";
+       
         
     }
 

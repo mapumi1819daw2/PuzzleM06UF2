@@ -12,7 +12,7 @@ var cont = 0;
 
 // 3 -> 3 x 3
 // 4 -> 4 x 4
-var dimensionsPuzzle = 3;
+var dimensionsPuzzle = 4;
 
 var qFitxes = dimensionsPuzzle*dimensionsPuzzle;
 
@@ -400,6 +400,7 @@ $(function () {
 
     function carregaImatge() {
         var imatge = new Image();
+
         imatge.src = "img/" + ciutat + ".jpg";
         imatge.crossOrigin = "Anonymous";
 

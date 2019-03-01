@@ -1,0 +1,17 @@
+CACHE MANIFEST
+
+#RECURSOS A EMMAGATEZMAR
+CACHE:
+Index.html
+img/NY.jpg
+img/Paris.jpg
+img/Tokio.jpg
+css/styleIndex.css
+
+
+
+NETWORK:
+puzzle.html
+js/indexDB.js
+js/DibuixarImatge.js
+js/geolocalitzacio.js

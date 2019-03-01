@@ -1,3 +1,4 @@
+var a = "";
 const DB_VERSION = 19;
 
 window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
@@ -11,6 +12,10 @@ var peticioObertura = window.indexedDB.open("puzzle", DB_VERSION);
 
 var db;
 
+const jugadors = [
+    { nom: "Marc", temps: 40 },
+ ];
+
 peticioObertura.onerror = function(event) {
     console.log("error: ");
  };
@@ -21,55 +26,39 @@ peticioObertura.onerror = function(event) {
  };
  
  peticioObertura.onupgradeneeded = function(event) {
+     console.log("Onupgraded")
     var db = event.target.result;
-    var objectStore = db.createObjectStore("jugadors", {keyPath: "id"});
-    
+    var objectStore = db.createObjectStore("jugadors", {keyPath: "nom"});
+    objectStore.add(jugadors[0]);
    
- }
+ }  
 
-var emmagatzematge = {
-    
-    desar: function () {
-        var magatzemObjsAlumnes = db.transaction("jugadors", "readwrite").objectStore("jugadors");
-        var jugador = {
-            nom: document.getElementById('nom').value
-        };
 
-        magatzemObjsAlumnes.add(jugador);
+function desar(){
+    var magatzemObjsAlumnes = db.transaction(["jugadors"], "readwrite").objectStore("jugadors").
+    add({nom: a, temps: 20});
 
-        magatzemObjsAlumnes.onsuccess = function(event) {
-            db = request.result;
-            alert("Fet!.");
-         };
-         
-         magatzemObjsAlumnes.onerror = function(event) {
-            alert("Nooooo! ");
-         }
-        
-
-    },
-    mostrar: function (magatzemObjsAlumnes) {
-        /* magatzemObjsAlumnes.openCursor().onsuccess = function (event) {
-            var cursor = event.target.result;
-            if (cursor) {
-                var fila = taula.insertRow(0);
-                fila.insertCell(0).innerHTML = cursor.key;
-                fila.insertCell(1).innerHTML = cursor.value.nota;
-                cursor.continue();
-            }
-        }; */
-
-    },
-    
-    
+    magatzemObjsAlumnes.onsuccess = function(event) {
+        /* db = magatzemObjsAlumnes.result; */
+        alert("Fet!.");
+     };
+     
+     magatzemObjsAlumnes.onerror = function(event) {
+        alert("Nooooo! ");
+     }
 }
 
 
+$(function(){
+    $("#Submit").on("click", function (){
+        a = document.getElementById('nom').value;
+        desar();
+    });
+});
 
-
-
+/* 
 function consulta(){
 
     emmagatzematge.desar();
     
-}
+} */

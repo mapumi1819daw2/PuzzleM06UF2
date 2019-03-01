@@ -5,14 +5,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="js/indexDB.js"></script>
         <script src="js/geolocalitzacio.js"></script>
-        <!-- <script src="js/webStorage.js"></script> -->
+        <script src="js/webStorage.js"></script>
       
         <!-- Full d'estils -->
         <link rel="stylesheet" type="text/css" href="css/styleIndex.css">
 </head>
 
 
-<body>
+<body onload="mostrar()">
 
     <div>
             <h3 align="center">Puzzle!</h3>
@@ -22,13 +22,20 @@
     </div>
 
     <img id="imatge">
+
+    <br><br>
+
+    <table id="taula"> 
+        Jugadors:<br>
+    </table>
     
 
 <!-- Formulari per iniciar el joc -->
 <div id="formulari">
     <p><strong>Escriu el teu nom per començar</strong></p>
     <input id="nom" type="text" name="nom" placeholder="nom: "/>
-    <button id="Submit" onclick="consulta()">Registrar-se</button>
+    <button id="Submit">IndexDB ->Registrar-se</button>
+    <button onclick="anarDesar()">WebStorage ->Registrar-se</button>
 </div>
 
 
